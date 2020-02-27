@@ -158,6 +158,17 @@ class Instructor extends Lambdasian{
   grade(student, subject){
     return `${student.name} receives a perfect score on ${subject}`
   }
+  finalGrade(student){
+    let change =  Math.floor((Math.random() * 60) - 20);
+    student.grade += change 
+    if(student.grade> 100){
+      student.grade = 100;
+    }
+    else if(student.grade < 0){
+      student.grade = 0;
+    }
+    return student.grade;
+  }
 }
 
 /*
@@ -180,7 +191,8 @@ class Student extends Lambdasian{
     super(attr),
     this.previousBackground = attr.previousBackground,
     this.className = attr.className,
-    this.favSubjects = attr.favSubjects
+    this.favSubjects = attr.favSubjects,
+    this.grade = 50
   }
   listSubjects(){
     return `Loving ${this.favSubjects}`
@@ -191,8 +203,17 @@ class Student extends Lambdasian{
   sprintChallenge(subject){
     return `${this.name} has begun sprint challenge on ${subject}`
   }
+  graduate(){
+    if(this.grade < 70){
+      console.log(`${this.name} didn't make it, Keep going with ${this.grade}`);
+      return false;
+  }
+  else{
+    console.log(`${this.name} graduated with ${this.grade}!`);
+    return true;
+  }
+  }
 }
-
 /*
   TASK 6
     - Write a ProjectManager class extending Instructor.
@@ -228,6 +249,32 @@ class ProjectManager extends Instructor{
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+const testStud = new Student({
+  name: 'Jimmy',
+  age: 19,
+  location: 'New Jersey',
+  previousBackground: 'Nothing',
+  className: 'Web Dev',
+  favSubjects: ['Drawing', 'Web Design', 'computer program']
+})
+const testInst = new Instructor({
+  name:'Thomas',
+  age: 36,
+  location:'California',
+  specialty: 'Banjo Player',
+  favLanguage: 'Mandarin Chinese',
+  catchPhrase: 'Whats up doc'
+})
+
+while(true){
+  if(testStud.graduate()){
+    break;
+  }
+  else{
+    testInst.finalGrade(testStud);
+  }
+}
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
